@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Product List</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<style>
+		.table {
+			padding: 100px 0;
+			width: 70%;
+			border: 3px solid black;
+			text-align: center;
+		}
+
+		.container {
+			padding: 10px 0;
+			width: 50%;
+			text-align: center;
+		}
+
+		.totalrows {
+			padding: 10px 0;
+			width: 50%;
+			text-align: center;
+		}
+
+		.btn1,
+		.btn2,
+		.btn3,
+		.btn4 {
+			padding: 1px 8px;
+			background-color: #2874A6;
+			border: none;
+			border-radius: 8px;
+		}
+	</style>
+</head>
+
+<body>
+	<center>
+		<h1>Product List</h1>
+
+		<table id="example" border="1" class="table table-bordered table-responsive-md">
+			<thead>
+				<tr>
+					<th>S.No&nbsp;&nbsp;<a
+							th:href="@{'/mainPage/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">
+							<button class="btn1">#</button></a></th>
+					<th>Product Name&nbsp;&nbsp;<a
+							th:href="@{'/mainPage/' + ${currentPage} + '?sortField=productName&sortDir=' + ${reverseSortDir}}">
+							<button class="btn2">#</button></a></th>
+					<th>Purchase Date&nbsp;&nbsp;<a
+							th:href="@{'/mainPage/' + ${currentPage} + '?sortField=purchaseDate&sortDir=' + ${reverseSortDir}}">
+							<button class="btn3">#</button></a></th>
+					<th>Quantity&nbsp;&nbsp;<a
+							th:href="@{'/mainPage/' + ${currentPage} + '?sortField=quantity&sortDir=' + ${reverseSortDir}}">
+							<button class="btn4">#</button></a></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="product,i : ${listProducts}">
+					<td th:text="${product.id}"></td>
+					<td th:text="${product.productName}"></td>
+					<td th:text="${product.purchaseDate}"></td>
+					<td th:text="${product.quantity}"></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="container">
+
+			<ul class="pagination">
+				<div class="totalrows">Total Rows: [[${totalItems}]]</div>
+
+				<li th:if="${currentPage != 1}" class="page-item"><a class="page-link"
+						th:href="@{'/mainPage/'+${currentPage-1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
+				</li>
+
+				<li th:each="i:${#numbers.sequence(1,totalPages)}" th:classappend="${currentPage==i ? 'active' : '' }"
+					class="page-item">
+					<a class="page-link"
+						th:href="@{'/mainPage/'+${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+				</li>
+
+
+				<li th:if="${currentPage < totalPages}" class="page-item"><a class="page-link"
+						th:href="@{'/mainPage/'+${currentPage+1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+				</li>
+
+				<li th:if="${currentPage < totalPages}" class="page-item"><a class="page-link"
+						th:href="@{'/mainPage/'+${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+				</li>
+
+			</ul>
+		</div>
+
+	</center>
+</body>
+
+</html>
